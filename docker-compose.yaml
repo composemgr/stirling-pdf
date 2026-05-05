@@ -23,8 +23,8 @@ services:
       SECURITY_INITIALLOGIN_USERNAME: ${APP_ADMIN_USER:-admin}
       SECURITY_INITIALLOGIN_PASSWORD: ${APP_ADMIN_PASS:-changeme_admin_password}
     volumes:
-      - ./rootfs/data/stirling-pdf:/usr/share/tessdata
-      - ./rootfs/config/stirling-pdf:/configs
+      - ./volumes/data/stirling-pdf:/usr/share/tessdata
+      - ./volumes/config/stirling-pdf:/configs
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080"]
       interval: 30s
