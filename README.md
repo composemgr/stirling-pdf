@@ -47,8 +47,8 @@ See `docker-compose.yaml` for complete list of configurable options.
 
 ## 📂 Volumes
 
-- `./rootfs/data/stirling-pdf` - Data storage
-- `./rootfs/config/stirling-pdf` - Data storage
+- `./volumes/data/stirling-pdf` - Data storage
+- `./volumes/config/stirling-pdf` - Data storage
 
 ## 🔐 Security
 
