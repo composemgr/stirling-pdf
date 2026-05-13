@@ -1,5 +1,6 @@
 # nginx proxy address - http://172.17.0.1:8082
 
+name: stirling-pdf
 x-logging: &default-logging
   driver: json-file
   options:
@@ -8,14 +9,16 @@ x-logging: &default-logging
 
 services:
   stirling-pdf:
-    image: frooodle/s-pdf:latest
+    image: stirlingtools/stirling-pdf:latest
+    pull_policy: always
     container_name: stirling-pdf-app
-    restart: unless-stopped
+    hostname: ${BASE_HOST_NAME:-$HOSTNAME}
+    restart: always
     logging: *default-logging
     networks:
       - stirling-pdf
     ports:
-      - "8082:8080"
+      - "172.17.0.1:8082:8080"
     environment:
       TZ: ${TZ:-America/New_York}
       DOCKER_ENABLE_SECURITY: "true"
@@ -33,4 +36,5 @@ services:
 
 networks:
   stirling-pdf:
+    name: stirling-pdf
     external: false
