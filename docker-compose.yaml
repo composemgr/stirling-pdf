@@ -27,6 +27,7 @@ services:
       SECURITY_ENABLELOGIN: "true"
       SECURITY_INITIALLOGIN_USERNAME: ${APP_ADMIN_USER:-admin}
       SECURITY_INITIALLOGIN_PASSWORD: ${APP_ADMIN_PASS:-changeme_admin_password}
+      DISABLE_ADDITIONAL_FEATURES: "false"
       CONTAINER_NAME: stirling-pdf-app
       HOSTNAME: ${BASE_HOST_NAME:-$HOSTNAME}
     volumes:
