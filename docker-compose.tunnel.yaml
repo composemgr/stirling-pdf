@@ -1,0 +1,46 @@
+name: stirling-pdf
+x-logging: &default-logging
+  options:
+    max-size: '5m'
+    max-file: '1'
+  driver: json-file
+
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf-app
+    hostname: ${BASE_HOST_NAME:-$HOSTNAME}
+    restart: always
+    pull_policy: always
+    logging: *default-logging
+    environment:
+      TZ: ${TZ:-America/New_York}
+      DOCKER_ENABLE_SECURITY: 'true'
+      SECURITY_ENABLELOGIN: 'true'
+      SECURITY_INITIALLOGIN_USERNAME: ${APP_ADMIN_USER:-admin}
+      SECURITY_INITIALLOGIN_PASSWORD: ${APP_ADMIN_PASS:-replace-with-a-random-password}
+      DISABLE_ADDITIONAL_FEATURES: 'false'
+      CONTAINER_NAME: stirling-pdf-app
+      HOSTNAME: ${BASE_HOST_NAME:-$HOSTNAME}
+    volumes:
+      - './volumes/data/stirling-pdf:/usr/share/tessdata'
+      - './volumes/config/stirling-pdf:/configs'
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://localhost:8080']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - 'cloudflare.enable=true'
+      - 'cloudflare.service=http://stirling-pdf-app:8080'
+      - 'cloudflare.hostname=${BASE_HOST_NAME:-$HOSTNAME}'
+    networks:
+      - stirling-pdf
+      - cloudflare
+
+networks:
+  stirling-pdf:
+    name: stirling-pdf
+    external: false
+  cloudflare:
+    external: true
